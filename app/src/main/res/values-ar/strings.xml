@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Aswan Driver Driver</string>
+    <string name="about">حول البرنامج</string>
+    <string name="about_message">اسوان كاب تطبيق للتاكسي الابيض المصري ،فهو يقدم افضل سعر، حمايه وراحه لعملائنا</string>
+    <string name="action_settings">الاعدادات</string>
+    <string name="contact_us">اتصل بنا</string>
+    <string name="customer_dis">واجه العميل</string>
+    <string name="customer_name">اسم العميل</string>
+    <string name="data_saved">تم حفظ البيانات</string>
+    <string name="distance">المسافة</string>
+    <string name="failed_order">شخض أخر قام بقبول الطلب</string>
+    <string name="finish">انهى هذة الرحلة</string>
+    <string name="finish_trip_message">هل تريد انهاء الرحلة؟!</string>
+    <string name="id">رقم الرخصة</string>
+    <string name="le">جم</string>
+    <string name="logging_in">تسجيل الدخول</string>
+    <string name="login">دخول</string>
+    <string name="logout">خروج</string>
+    <string name="money">الاجرة</string>
+    <string name="moving_time">وقت التحرك</string>
+    <string name="my_history">رحلاتي السابقة</string>
+    <string name="new_order">رحلة جديدة</string>
+    <string name="no">لا</string>
+    <string name="notification_fee">اجرة هذة الرحلة</string>
+    <string name="password">كلمة المرور</string>
+    <string name="please_wait">لحظة من فضلك...</string>
+    <string name="speed">السرعة(كم/س)</string>
+    <string name="start_trip">ابدء الرحلة</string>
+    <string name="stopping_time">وقت التوقف</string>
+    <string name="time">الوقت</string>
+    <string name="total_distance">المسافة(كم)</string>
+    <string name="total_money">الاجرة (جم)</string>
+    <string name="total_time">الوقت</string>
+    <string name="welcome">اهلا بك</string>
+    <string name="yes">نعم</string>
+    <string name="arabic">العربية</string>
+    <string name="choose_lan">اللغة</string>
+    <string name="english">الانجليزية</string>
+    <string name="restart">اعد تشغيل التطبيق</string>
+    <string name="user_around">لا يوجد عملاء متاحين الان</string>
+</resources>
