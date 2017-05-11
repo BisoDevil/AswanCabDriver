@@ -46,7 +46,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.api.client.json.GenericJson;
 import com.kinvey.android.AsyncAppData;
 import com.kinvey.android.Client;
+import com.kinvey.android.callback.KinveyDeleteCallback;
 import com.kinvey.java.core.KinveyClientCallback;
+import com.kinvey.java.model.KinveyDeleteResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -354,6 +356,20 @@ public class MapActivity extends AppCompatActivity
         fabMain.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
         fabMain.clearAnimation();
         toggleMain = false;
+        Client mKinveyClient = new Client.Builder(getApplicationContext()).build();
+        AsyncAppData<GenericJson> mylocation = mKinveyClient.appData("locations", GenericJson.class);
+        mylocation.delete(mKinveyClient.user().getId(), new KinveyDeleteCallback() {
+            @Override
+            public void onSuccess(KinveyDeleteResponse kinveyDeleteResponse) {
+                Toast.makeText(MapActivity.this, "Stopped", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+        });
+
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("state", "offline");
         editor.apply();

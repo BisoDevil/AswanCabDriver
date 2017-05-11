@@ -63,7 +63,7 @@ public class Locations extends Service implements LocationListener {
                     appdata.put("_id", mKinveyClient.user().getId());
                     appdata.put("long", location.getLongitude());
                     appdata.put("lat", location.getLatitude());
-                    appdata.put("state", sharedPreferences.getString("state", "online"));
+                    appdata.put("state", sharedPreferences.getString("state", "offline"));
                     appdata.put("_geoloc", Arrays.asList(location.getLongitude(), location.getLatitude()));
                     AsyncAppData<GenericJson> mylocation = mKinveyClient.appData("locations", GenericJson.class);
 
