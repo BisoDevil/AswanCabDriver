@@ -79,5 +79,14 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        app:srcCompat="@drawable/login_logo" />
+
 
 </RelativeLayout>

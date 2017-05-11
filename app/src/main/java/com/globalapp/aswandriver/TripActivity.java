@@ -3,15 +3,13 @@ package com.globalapp.aswandriver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -19,11 +17,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.api.client.extensions.android.AndroidUtils;
 import com.google.api.client.json.GenericJson;
-import com.kinvey.android.AsyncCustomEndpoints;
 import com.kinvey.android.Client;
-import com.kinvey.android.callback.KinveyListCallback;
 import com.kinvey.java.core.KinveyClientCallback;
 
 import java.util.Locale;
@@ -92,6 +87,8 @@ public class TripActivity extends AppCompatActivity {
     public void answer(View view) {
         if (!is_pressed) {
             acceptOrder("I'm on my way");
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + CustomerGeo));
+            this.startActivity(i);
 
 
         } else {

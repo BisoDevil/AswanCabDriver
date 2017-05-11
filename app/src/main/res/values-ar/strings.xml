@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Aswan Driver Driver</string>
+    <string name="app_name">Upper Driver</string>
     <string name="about">حول البرنامج</string>
-    <string name="about_message">اسوان كاب تطبيق للتاكسي الابيض المصري ،فهو يقدم افضل سعر، حمايه وراحه لعملائنا</string>
+    <string name="about_message">تاكسي الصعيد يقدم افضل سعر، حمايه وراحه لعملائنا</string>
     <string name="action_settings">الاعدادات</string>
     <string name="contact_us">اتصل بنا</string>
     <string name="customer_dis">واجه العميل</string>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Aswan Driver</string>
+    <string name="app_name">Upper Driver</string>
     <string name="title_activity_map" translatable="false">MapActivity</string>
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
@@ -28,7 +28,7 @@
     <string name="data_saved">Data has been saved…!</string>
     <string name="customer_name">Customer Name</string>
     <string name="customer_dis">Customer Destination</string>
-    <string name="new_order">Aswan Driver New Order</string>
+    <string name="new_order">Upper Driver New Order</string>
     <string name="start_trip">Start Trip</string>
     <string name="failed_order">Someone else accepted the order</string>
     <string name="time">Time</string>
@@ -37,7 +37,7 @@
     <string name="my_history">My History</string>
     <string name="contact_us">Contact US</string>
     <string name="about">About US</string>
-    <string name="about_message">Aswan Driver V1.1 is an application for Egypt white taxi , it provides best price, security and relax for our customers</string>
+    <string name="about_message">Upper Driver V1.1 is an application for Egypt white taxi , it provides best price, security and relax for our customers</string>
     <string name="choose_lan">Language</string>
     <string name="arabic">Arabic</string>
     <string name="restart">Please restart the App </string>
