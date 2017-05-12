@@ -18,8 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.api.client.json.GenericJson;
+import com.kinvey.android.AsyncAppData;
 import com.kinvey.android.Client;
+import com.kinvey.android.callback.KinveyDeleteCallback;
 import com.kinvey.java.core.KinveyClientCallback;
+import com.kinvey.java.model.KinveyDeleteResponse;
 
 import java.util.Locale;
 
@@ -73,6 +76,19 @@ public class TripActivity extends AppCompatActivity {
     public void startTrip(View view) {
         response("Start Trip");
         startService(new Intent(this, FeesCalculation.class));
+        Client mKinveyClient = new Client.Builder(getApplicationContext()).build();
+        AsyncAppData<GenericJson> mylocation = mKinveyClient.appData("locations", GenericJson.class);
+        mylocation.delete(mKinveyClient.user().getId(), new KinveyDeleteCallback() {
+            @Override
+            public void onSuccess(KinveyDeleteResponse kinveyDeleteResponse) {
+                Toast.makeText(TripActivity.this, "Stopped", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+        });
         finish();
     }
 

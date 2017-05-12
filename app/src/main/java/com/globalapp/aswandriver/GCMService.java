@@ -38,6 +38,7 @@ public class GCMService extends KinveyGCMService {
 
             trip.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(trip);
+            return;
         } catch (Exception ex) {
             Log.e("error", ex.getMessage());
         }

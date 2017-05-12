@@ -417,6 +417,7 @@ public class MapActivity extends AppCompatActivity
                     }
                 })
                 .show();
+        startService(new Intent(getApplicationContext(), Locations.class));
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("state", "online");
         editor.apply();

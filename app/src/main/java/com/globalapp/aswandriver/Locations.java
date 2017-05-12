@@ -1,18 +1,28 @@
 package com.globalapp.aswandriver;
 
+import android.*;
+import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.api.client.json.GenericJson;
 import com.kinvey.android.AsyncAppData;
 import com.kinvey.android.Client;
@@ -23,7 +33,6 @@ import java.util.Arrays;
 public class Locations extends Service implements LocationListener {
     SharedPreferences sharedPreferences;
     public static boolean IS_RUNNING = false;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -33,7 +42,9 @@ public class Locations extends Service implements LocationListener {
 
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 0, this);
+        locationManager.requestLocationUpdates(LocationManager.PASSIVE_PROVIDER, 4000, 1, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 1, this);
         sharedPreferences = getSharedPreferences("TaxiSharedDriver", Context.MODE_PRIVATE);
         Toast.makeText(this, "Started", Toast.LENGTH_SHORT).show();
         IS_RUNNING = true;
@@ -54,7 +65,7 @@ public class Locations extends Service implements LocationListener {
     }
 
     @Override
-    public void onLocationChanged(final android.location.Location location) {
+    public void onLocationChanged(final Location location) {
         Thread thread = new Thread() {
             public void run() {
                 try {
@@ -63,7 +74,7 @@ public class Locations extends Service implements LocationListener {
                     appdata.put("_id", mKinveyClient.user().getId());
                     appdata.put("long", location.getLongitude());
                     appdata.put("lat", location.getLatitude());
-                    appdata.put("state", sharedPreferences.getString("state", "offline"));
+                    appdata.put("state", sharedPreferences.getString("state", "online"));
                     appdata.put("_geoloc", Arrays.asList(location.getLongitude(), location.getLatitude()));
                     AsyncAppData<GenericJson> mylocation = mKinveyClient.appData("locations", GenericJson.class);
 
