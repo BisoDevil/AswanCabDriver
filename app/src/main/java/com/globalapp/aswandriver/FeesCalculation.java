@@ -26,7 +26,7 @@ public class FeesCalculation extends Service {
 
     public static boolean IS_SERVICE_RUNNING = false;
     private double EXTRA_Distance = 0;
-    private double EXTRA_TOTAL = 4;
+    private double EXTRA_TOTAL = 5;
     private double A = 0;
     private double B = 0;
     private double C = 0;
@@ -104,24 +104,24 @@ public class FeesCalculation extends Service {
     private void sendBroadcastMessage(float Speed) {
 
         EXTRA_Distance += (Speed / 1000);
-
-        if (Speed > 2 & Speed < 12) {
-            Move_Timer.start();
-            Stop_Timer.pause();
-            B = Speed * 0.00175;
-            C = 0;
-            A = 0;
-        } else if (Speed > 12) {
-            Move_Timer.start();
-            Stop_Timer.pause();
-            C = Speed * .0015;
-            B = 0;
-            A = 0;
-        } else {
-            A = 0.0041666666666667;
+        if (Speed > 2) {
+            A = 0.008333333334;
             Move_Timer.pause();
             Stop_Timer.start();
-
+        } else {
+            if (EXTRA_Distance > 7 || EXTRA_Distance >= 15) {
+                Move_Timer.start();
+                Stop_Timer.pause();
+                B = Speed * 0.0025;
+                C = 0;
+                A = 0;
+            } else if (EXTRA_Distance <= 7 && EXTRA_Distance > 15) {
+                Move_Timer.start();
+                Stop_Timer.pause();
+                C = Speed * .0035;
+                B = 0;
+                A = 0;
+            }
         }
         EXTRA_TOTAL += A + B + C;
 
