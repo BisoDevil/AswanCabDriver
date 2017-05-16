@@ -104,18 +104,18 @@ public class FeesCalculation extends Service {
     private void sendBroadcastMessage(float Speed) {
 
         EXTRA_Distance += (Speed / 1000);
-        if (Speed > 2) {
+        if (Speed < 2) {
             A = 0.008333333334;
             Move_Timer.pause();
             Stop_Timer.start();
         } else {
-            if (EXTRA_Distance > 7 || EXTRA_Distance >= 15) {
+            if (EXTRA_Distance < 7 || EXTRA_Distance >= 15) {
                 Move_Timer.start();
                 Stop_Timer.pause();
                 B = Speed * 0.0025;
                 C = 0;
                 A = 0;
-            } else if (EXTRA_Distance <= 7 && EXTRA_Distance > 15) {
+            } else if (EXTRA_Distance >= 7 && EXTRA_Distance < 15) {
                 Move_Timer.start();
                 Stop_Timer.pause();
                 C = Speed * .0035;
