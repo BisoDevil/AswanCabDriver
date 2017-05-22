@@ -62,6 +62,8 @@ public class UserActivity extends AppCompatActivity {
                 editor.putString("UserName", user.getUsername());
                 editor.putString("full_Name", user.get("full_Name").toString());
                 editor.putString("PhoneNumber", user.get("Phone_Number").toString());
+                editor.putString("carColor", user.get("car_color").toString());
+                editor.putString("carModel", user.get("car_model").toString());
                 editor.putString("carNo", user.get("car").toString());
                 editor.apply();
                 dialog.dismiss();

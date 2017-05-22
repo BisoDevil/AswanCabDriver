@@ -3,12 +3,14 @@ package com.globalapp.aswandriver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -148,6 +150,8 @@ public class TripActivity extends AppCompatActivity {
         myInput.put("carNo", sharedPreferences.getString("carNo", ""));
         myInput.put("driver_name", sharedPreferences.getString("full_Name", ""));
         myInput.put("driver_phone", sharedPreferences.getString("PhoneNumber", ""));
+        myInput.put("carModel", sharedPreferences.getString("carModel", ""));
+        myInput.put("carColor", sharedPreferences.getString("carColor", ""));
         mKinveyClient.customEndpoints(GenericJson.class).callEndpoint("Driver", myInput, new KinveyClientCallback() {
 
 
@@ -203,5 +207,15 @@ public class TripActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void callUser(View view) {
+        Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+        phoneIntent.setData(Uri.parse("tel:" + txtCustomerName.getText().toString()));
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        startActivity(phoneIntent);
     }
 }

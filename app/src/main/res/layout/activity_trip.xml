@@ -92,7 +92,7 @@
                     android:editable="false"
                     android:enabled="false"
                     android:hint="@string/customer_name"
-                    android:singleLine="true" />
+                    android:onClick="callUser" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
