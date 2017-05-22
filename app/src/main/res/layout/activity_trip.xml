@@ -91,7 +91,6 @@
                     android:layout_height="wrap_content"
                     android:editable="false"
                     android:enabled="false"
-                    android:hint="@string/customer_name"
                     android:onClick="callUser" />
             </android.support.design.widget.TextInputLayout>
 
