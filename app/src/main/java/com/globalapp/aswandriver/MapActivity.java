@@ -370,9 +370,7 @@ public class MapActivity extends AppCompatActivity
             }
         });
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("state", "offline");
-        editor.apply();
+
     }
 
     public void finishTrip(View view) {
@@ -446,6 +444,7 @@ public class MapActivity extends AppCompatActivity
     public void userLogout(View view) {
         mKinveyClient.user().logout().execute();
         Intent user = new Intent(getApplicationContext(), UserActivity.class);
+        stopLocationService();
         startActivity(user);
 
     }

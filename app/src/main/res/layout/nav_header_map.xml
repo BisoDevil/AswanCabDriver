@@ -47,7 +47,7 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-condensed"
             android:gravity="start"
-            android:onClick="editProfile"
+
             android:text="Global App"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textSize="18sp"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_weight="1"
-                android:onClick="editProfile"
+
                 android:text="globall-apps@gmail.com"
                 android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="@+id/profile_image"

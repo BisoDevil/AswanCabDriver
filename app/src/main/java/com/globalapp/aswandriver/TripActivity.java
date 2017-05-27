@@ -1,6 +1,8 @@
 package com.globalapp.aswandriver;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -105,8 +107,9 @@ public class TripActivity extends AppCompatActivity {
     public void answer(View view) {
         if (!is_pressed) {
             acceptOrder("I'm on my way");
-            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + CustomerGeo));
-            this.startActivity(i);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("state", "offline");
+            editor.apply();
 
 
         } else {
@@ -158,13 +161,15 @@ public class TripActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Object o) {
                 Toast.makeText(TripActivity.this, "Succeeded", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + CustomerGeo));
+                startActivity(i);
                 showNextStep();
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                Toast.makeText(TripActivity.this, getString(R.string.failed_order), Toast.LENGTH_SHORT).show();
 
+                showDialog(getString(R.string.failed_order));
             }
         });
     }
@@ -181,9 +186,7 @@ public class TripActivity extends AppCompatActivity {
         fabNo.setEnabled(false);
 
         is_pressed = true;
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("state", "offline");
-        editor.apply();
+
 
     }
 
@@ -217,5 +220,20 @@ public class TripActivity extends AppCompatActivity {
             return;
         }
         startActivity(phoneIntent);
+    }
+
+    private void showDialog(String text) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setMessage(text)
+                .setTitle(getString(R.string.app_name))
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                })
+                .show();
     }
 }
