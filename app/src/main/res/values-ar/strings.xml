@@ -39,4 +39,5 @@
     <string name="english">الانجليزية</string>
     <string name="restart">اعد تشغيل التطبيق</string>
     <string name="user_around">لا يوجد عملاء متاحين الان</string>
+    <string name="current">الرحلة الحالية</string>
 </resources>

@@ -7,6 +7,10 @@
             android:icon="@drawable/ic_my_trips"
             android:title="@string/my_history" />
         <item
+            android:id="@+id/nav_current"
+            android:icon="@drawable/ic_current"
+            android:title="@string/current" />
+        <item
             android:id="@+id/nav_ContactUS"
             android:icon="@drawable/ic_phone_call"
             android:title="@string/contact_us" />

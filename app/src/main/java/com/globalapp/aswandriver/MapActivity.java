@@ -47,6 +47,8 @@ import com.google.api.client.json.GenericJson;
 import com.kinvey.android.AsyncAppData;
 import com.kinvey.android.Client;
 import com.kinvey.android.callback.KinveyDeleteCallback;
+import com.kinvey.java.cache.CachePolicy;
+import com.kinvey.java.cache.InMemoryLRUCache;
 import com.kinvey.java.core.KinveyClientCallback;
 import com.kinvey.java.model.KinveyDeleteResponse;
 
@@ -148,6 +150,10 @@ public class MapActivity extends AppCompatActivity
             case R.id.nav_setting:
                 Intent setting = new Intent(getApplicationContext(), SettingActivity.class);
                 startActivity(setting);
+                break;
+            case R.id.nav_current:
+                Intent current = new Intent(getApplicationContext(), TripActivity.class);
+                startActivity(current);
                 break;
 
 
@@ -374,7 +380,11 @@ public class MapActivity extends AppCompatActivity
     }
 
     public void finishTrip(View view) {
+        if (Double.valueOf(txtTotalMoney.getText().toString()) < 6.0) {
 
+            return;
+
+        }
         final String date = new SimpleDateFormat("EEE, d MMM yy, hh:mm aaa", Locale.US).format(new Date());
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setMessage(getString(R.string.finish_trip_message))
@@ -383,7 +393,7 @@ public class MapActivity extends AppCompatActivity
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        stopService(new Intent(getApplicationContext(), FeesCalculation.class));
+
                         responses("Trip is Finished");
 
                         GenericJson myInput = new GenericJson();
@@ -394,10 +404,11 @@ public class MapActivity extends AppCompatActivity
                         myInput.put("Distance", txtTotalDistance.getText().toString());
 
                         AsyncAppData<GenericJson> myPayments = mKinveyClient.appData("Payments", GenericJson.class);
+                        myPayments.setCache(new InMemoryLRUCache(), CachePolicy.NETWORKFIRST);
                         myPayments.save(myInput, new KinveyClientCallback<GenericJson>() {
                             @Override
                             public void onSuccess(GenericJson genericJson) {
-
+                                stopService(new Intent(getApplicationContext(), FeesCalculation.class));
                                 Toast.makeText(getApplicationContext(), getString(R.string.data_saved), Toast.LENGTH_SHORT).show();
                             }
 
@@ -419,6 +430,7 @@ public class MapActivity extends AppCompatActivity
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("state", "online");
         editor.apply();
+
     }
 
     public void responses(String message) {
