@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -18,6 +19,8 @@ import org.json.JSONObject;
  */
 public class GCMService extends KinveyGCMService {
 
+    SharedPreferences sharedPreferences;
+
     private static long time;
 
     @Override
@@ -30,6 +33,15 @@ public class GCMService extends KinveyGCMService {
         Intent trip = new Intent(getApplicationContext(), TripActivity.class);
         try {
             JSONObject details = new JSONObject(message);
+            sharedPreferences = getSharedPreferences("TaxiSharedDriver", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("CustomerName", details.getString("user_phone"));
+            editor.putString("CustomerDes", details.getString("user_dist"));
+            editor.putString("CustomerGeo", details.getString("user_lat") + "," + details.getString("user_long"));
+            editor.putString("ID", details.getString("_id"));
+            editor.apply();
+
+
             TripActivity.CustomerName = details.getString("user_phone");
             MapActivity.CustomerName = details.getString("user_phone");
             TripActivity.CustomerDes = details.getString("user_dist");

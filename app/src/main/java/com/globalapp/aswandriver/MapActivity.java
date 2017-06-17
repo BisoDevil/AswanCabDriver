@@ -2,6 +2,7 @@ package com.globalapp.aswandriver;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -55,6 +56,7 @@ import com.kinvey.java.model.KinveyDeleteResponse;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class MapActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, LocationListener {
@@ -152,8 +154,17 @@ public class MapActivity extends AppCompatActivity
                 startActivity(setting);
                 break;
             case R.id.nav_current:
-                Intent current = new Intent(getApplicationContext(), TripActivity.class);
-                startActivity(current);
+                if (sharedPreferences.getString("CustomerName", "").isEmpty()) {
+                    Toast.makeText(this, getString(R.string.no_cuurent), Toast.LENGTH_SHORT).show();
+                } else {
+                    TripActivity.CustomerName = sharedPreferences.getString("CustomerName", "");
+                    MapActivity.CustomerName = sharedPreferences.getString("CustomerName", "");
+                    TripActivity.CustomerDes = sharedPreferences.getString("CustomerDes", "");
+                    TripActivity.ID = sharedPreferences.getString("ID", "");
+                    TripActivity.CustomerGeo = sharedPreferences.getString("CustomerGeo", "");
+                    Intent current = new Intent(getApplicationContext(), TripActivity.class);
+                    startActivity(current);
+                }
                 break;
 
 
@@ -385,6 +396,7 @@ public class MapActivity extends AppCompatActivity
             return;
 
         }
+
         final String date = new SimpleDateFormat("EEE, d MMM yy, hh:mm aaa", Locale.US).format(new Date());
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setMessage(getString(R.string.finish_trip_message))
@@ -393,7 +405,11 @@ public class MapActivity extends AppCompatActivity
                 .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        final ProgressDialog loading = new ProgressDialog(getApplicationContext());
+                        loading.setTitle(getString(R.string.logging_in));
+                        loading.setMessage(getString(R.string.please_wait));
+                        loading.show();
+                        stopService(new Intent(getApplicationContext(), FeesCalculation.class));
                         responses("Trip is Finished");
 
                         GenericJson myInput = new GenericJson();
@@ -408,7 +424,14 @@ public class MapActivity extends AppCompatActivity
                         myPayments.save(myInput, new KinveyClientCallback<GenericJson>() {
                             @Override
                             public void onSuccess(GenericJson genericJson) {
-                                stopService(new Intent(getApplicationContext(), FeesCalculation.class));
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.remove("CustomerName");
+                                editor.remove("CustomerDes");
+                                editor.remove("CustomerGeo");
+                                editor.remove("ID");
+                                editor.apply();
+                                loading.dismiss();
+                                closeCounter();
                                 Toast.makeText(getApplicationContext(), getString(R.string.data_saved), Toast.LENGTH_SHORT).show();
                             }
 

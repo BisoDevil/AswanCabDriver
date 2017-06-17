@@ -44,4 +44,6 @@
     <string name="english">English</string>
     <string name="user_around">The is no User available around</string>
     <string name="current">Current Trip</string>
+    <string name="no_cuurent">You are not in Trip now</string>
+    <string name="trip_finish">Finishing your tips</string>
 </resources>
