@@ -406,7 +406,7 @@ public class MapActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         final ProgressDialog loading = new ProgressDialog(getApplicationContext());
-                        loading.setTitle(getString(R.string.logging_in));
+                        loading.setTitle(getString(R.string.trip_finish));
                         loading.setMessage(getString(R.string.please_wait));
                         loading.show();
                         stopService(new Intent(getApplicationContext(), FeesCalculation.class));
@@ -431,7 +431,7 @@ public class MapActivity extends AppCompatActivity
                                 editor.remove("ID");
                                 editor.apply();
                                 loading.dismiss();
-                                closeCounter();
+
                                 Toast.makeText(getApplicationContext(), getString(R.string.data_saved), Toast.LENGTH_SHORT).show();
                             }
 

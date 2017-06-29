@@ -105,20 +105,20 @@ public class FeesCalculation extends Service {
 
         EXTRA_Distance += (Speed / 1000);
         if (Speed < 2) {
-            A = 0.008333333334;
+            A = 0.008333333334; //waiting minute 0.5 LE
             Move_Timer.pause();
             Stop_Timer.start();
         } else {
             if (EXTRA_Distance < 7 || EXTRA_Distance >= 15) {
                 Move_Timer.start();
                 Stop_Timer.pause();
-                B = Speed * 0.0025;
+                B = Speed * 0.0035; //Kilometer 3.5 LE
                 C = 0;
                 A = 0;
             } else if (EXTRA_Distance >= 7 && EXTRA_Distance < 15) {
                 Move_Timer.start();
                 Stop_Timer.pause();
-                C = Speed * .0035;
+                C = Speed * .0045; // Kilometer 4.5 LE
                 B = 0;
                 A = 0;
             }
