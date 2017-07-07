@@ -46,4 +46,5 @@
     <string name="current">Current Trip</string>
     <string name="no_cuurent">You are not in Trip now</string>
     <string name="trip_finish">Finishing</string>
+    <string name="active_now">Active now</string>
 </resources>

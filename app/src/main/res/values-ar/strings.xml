@@ -42,4 +42,5 @@
     <string name="current">الرحلة الحالية</string>
     <string name="no_cuurent">انت ليس في رحلة الان</string>
     <string name="trip_finish">انهاء</string>
+    <string name="active_now">نشط الان</string>
 </resources>

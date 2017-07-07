@@ -2,6 +2,7 @@ package com.globalapp.aswandriver;
 
 import android.*;
 import android.Manifest;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ import com.kinvey.android.Client;
 import com.kinvey.java.core.KinveyClientCallback;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 public class Locations extends Service implements LocationListener {
     SharedPreferences sharedPreferences;
@@ -37,6 +40,7 @@ public class Locations extends Service implements LocationListener {
     public void onCreate() {
         super.onCreate();
         // Location sensor
+        showNotification();
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -62,6 +66,7 @@ public class Locations extends Service implements LocationListener {
 // TODO: 1/4/2017 Hnadle stopping service
         Toast.makeText(this, "Stopped", Toast.LENGTH_SHORT).show();
         IS_RUNNING = false;
+        stopForeground(true);
     }
 
     @Override
@@ -99,6 +104,23 @@ public class Locations extends Service implements LocationListener {
         };
         thread.start();
 
+
+    }
+
+    private void showNotification() {
+
+        Intent starter = new Intent(getApplicationContext(), MapActivity.class);
+        PendingIntent Pending = PendingIntent.getActivity(getApplicationContext(), 0, starter, 0);
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this);
+        notification.setOngoing(true)
+                .setContentTitle(getString(R.string.app_name))
+
+                .setContentText(getString(R.string.active_now))
+                .setSmallIcon(R.drawable.ic_notify)
+
+                .setContentIntent(Pending)
+                .setOngoing(true);
+        startForeground(132, notification.build());
 
     }
 
