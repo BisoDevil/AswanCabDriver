@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.globalapp.aswandriver.MapActivity"
+    tools:context="com.globalapp.futuretaxidriver.MapActivity"
     tools:showIn="@layout/app_bar_map">
 
     <fragment
@@ -21,6 +21,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+    <include
+        android:id="@+id/fees"
+        layout="@layout/fees"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/fabMain"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.57" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabMain"
         android:layout_width="wrap_content"
@@ -31,8 +47,8 @@
         android:scaleType="fitCenter"
         android:scaleX="1.5"
         android:scaleY="1.5"
-        app:backgroundTint="@color/green"
-        app:elevation="4dp"
+        app:backgroundTint="@android:color/holo_red_dark"
+        app:elevation="0dp"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="@+id/Map"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -60,32 +76,13 @@
         android:id="@+id/fabCounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="24dp"
         android:clickable="true"
         android:onClick="toggleCounter"
-        app:elevation="4dp"
+        app:elevation="0dp"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="@+id/fabMain"
         app:layout_constraintLeft_toLeftOf="@+id/Map"
         app:layout_constraintRight_toLeftOf="@+id/fabMain"
         app:srcCompat="@drawable/ic_counter" />
-
-    <include
-        android:id="@+id/fees"
-        layout="@layout/fees"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginStart="24dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.39" />
 
 </android.support.constraint.ConstraintLayout>

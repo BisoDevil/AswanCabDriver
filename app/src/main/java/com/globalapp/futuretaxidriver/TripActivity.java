@@ -1,4 +1,4 @@
-package com.globalapp.aswandriver;
+package com.globalapp.futuretaxidriver;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -108,8 +108,10 @@ public class TripActivity extends AppCompatActivity {
         if (!is_pressed) {
             acceptOrder("I'm on my way");
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("state", "offline");
+            editor.remove("state");
+            editor.putString("state","offline");
             editor.apply();
+            MapActivity.onTrip = true;
 
 
         } else {
@@ -161,6 +163,10 @@ public class TripActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Object o) {
                 Toast.makeText(TripActivity.this, "Succeeded", Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("state");
+                editor.putString("state","offline");
+                editor.apply();
                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + CustomerGeo));
                 startActivity(i);
                 showNextStep();
@@ -172,6 +178,8 @@ public class TripActivity extends AppCompatActivity {
                 showDialog(getString(R.string.failed_order));
             }
         });
+
+
     }
 
     private void showNextStep() {

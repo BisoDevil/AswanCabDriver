@@ -1,4 +1,4 @@
-package com.globalapp.aswandriver;
+package com.globalapp.futuretaxidriver;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -22,7 +22,6 @@ import com.kinvey.java.Query;
 import com.kinvey.java.cache.CachePolicy;
 import com.kinvey.java.cache.InMemoryLRUCache;
 import com.kinvey.java.offline.OfflinePolicy;
-import com.kinvey.java.offline.OfflineStore;
 import com.kinvey.java.query.AbstractQuery;
 
 import java.util.Locale;

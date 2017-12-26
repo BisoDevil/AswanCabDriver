@@ -1,8 +1,7 @@
-package com.globalapp.aswandriver;
+package com.globalapp.futuretaxidriver;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +10,6 @@ import android.util.Log;
 
 import com.kinvey.android.push.KinveyGCMService;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**

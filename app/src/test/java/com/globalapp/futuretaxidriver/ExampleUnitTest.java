@@ -1,4 +1,4 @@
-package com.globalapp.aswandriver;
+package com.globalapp.futuretaxidriver;
 
 import org.junit.Test;
 

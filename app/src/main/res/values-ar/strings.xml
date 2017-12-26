@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Upper Driver</string>
+    <string name="app_name">Future Driver</string>
     <string name="about">حول البرنامج</string>
-    <string name="about_message">تاكسي الصعيد يقدم افضل سعر، حمايه وراحه لعملائنا</string>
+    <string name="about_message">فيوتشر تاكسي يقدم افضل سعر، حمايه وراحه لعملائنا</string>
     <string name="action_settings">الاعدادات</string>
     <string name="contact_us">اتصل بنا</string>
     <string name="customer_dis">واجه العميل</string>
@@ -43,4 +43,5 @@
     <string name="no_cuurent">انت ليس في رحلة الان</string>
     <string name="trip_finish">انهاء</string>
     <string name="active_now">نشط الان</string>
+    <string name="new_trip">ابدء رحلة جديدة</string>
 </resources>

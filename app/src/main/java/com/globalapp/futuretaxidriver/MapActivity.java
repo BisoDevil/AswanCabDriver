@@ -1,4 +1,4 @@
-package com.globalapp.aswandriver;
+package com.globalapp.futuretaxidriver;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -17,7 +17,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
+import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
@@ -33,14 +33,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -56,7 +54,6 @@ import com.kinvey.java.model.KinveyDeleteResponse;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 
 public class MapActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, LocationListener {
@@ -127,7 +124,7 @@ public class MapActivity extends AppCompatActivity
                 break;
             case R.id.nav_ContactUS:
                 Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-                phoneIntent.setData(Uri.parse("tel:01000028380"));
+                phoneIntent.setData(Uri.parse("tel:01201513513"));
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Change call number
 
@@ -249,6 +246,19 @@ public class MapActivity extends AppCompatActivity
         } else {
             fabCounter.clearAnimation();
         }
+// TODO: 11/1/2017 create counter every 10 min to ask driver if he is online or not  
+//        CountDownTimer countDownTimer = new CountDownTimer(1000*60*10,1000) {
+//            @Override
+//            public void onTick(long millisUntilFinished) {
+//              
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//
+//            }
+//        };
+//        countDownTimer.start();
 
     }
 
@@ -360,7 +370,7 @@ public class MapActivity extends AppCompatActivity
     private void startLocationService() {
         startService(new Intent(getApplicationContext(), Locations.class));
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);
-        fabMain.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+        fabMain.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
         fabMain.startAnimation(animation);
         toggleMain = true;
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -370,7 +380,7 @@ public class MapActivity extends AppCompatActivity
 
     private void stopLocationService() {
         stopService(new Intent(getApplicationContext(), Locations.class));
-        fabMain.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+        fabMain.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
         fabMain.clearAnimation();
         toggleMain = false;
         Client mKinveyClient = new Client.Builder(getApplicationContext()).build();
@@ -390,70 +400,76 @@ public class MapActivity extends AppCompatActivity
 
     }
 
+  static   boolean onTrip = false;
+
     public void finishTrip(View view) {
-        if (Double.valueOf(txtTotalMoney.getText().toString()) < 6.0) {
+        final Button btn = (Button) findViewById(R.id.btnFinishTrip);
+        if (onTrip) {
+            if (Double.valueOf(txtTotalMoney.getText().toString()) < 6.0) {
 
-            return;
+                return;
+            }
 
+            final String date = new SimpleDateFormat("EEE, d MMM yy, hh:mm aaa", Locale.US).format(new Date());
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setMessage(getString(R.string.finish_trip_message))
+                    .setTitle(getString(R.string.finish))
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            stopService(new Intent(getApplicationContext(), FeesCalculation.class));
+                            final ProgressDialog loading = new ProgressDialog(getApplicationContext());
+                            loading.setTitle(getString(R.string.trip_finish));
+                            loading.setMessage(getString(R.string.please_wait));
+                            loading.show();
+                            responses("Trip is Finished");
+
+                            GenericJson myInput = new GenericJson();
+                            myInput.put("UserName", sharedPreferences.getString("UserName", ""));
+                            myInput.put("Money", txtTotalMoney.getText().toString());
+                            myInput.put("Time", date);
+                            myInput.put("customer_phone", CustomerName);
+                            myInput.put("Distance", txtTotalDistance.getText().toString());
+
+                            AsyncAppData<GenericJson> myPayments = mKinveyClient.appData("Payments", GenericJson.class);
+                            myPayments.setCache(new InMemoryLRUCache(), CachePolicy.NETWORKFIRST);
+                            myPayments.save(myInput, new KinveyClientCallback<GenericJson>() {
+                                @Override
+                                public void onSuccess(GenericJson genericJson) {
+
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.remove("CustomerName");
+                                    editor.remove("CustomerDes");
+                                    editor.remove("CustomerGeo");
+                                    editor.remove("ID");
+                                    editor.apply();
+                                    loading.dismiss();
+                                    btn.setText(getString(R.string.new_trip));
+                                    onTrip = true;
+                                    Toast.makeText(getApplicationContext(), getString(R.string.data_saved), Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onFailure(Throwable throwable) {
+
+                                }
+                            });
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+
+        } else {
+            startLocationService();
+            onTrip = false;
+            btn.setText(getString(R.string.finish));
         }
-
-        final String date = new SimpleDateFormat("EEE, d MMM yy, hh:mm aaa", Locale.US).format(new Date());
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setMessage(getString(R.string.finish_trip_message))
-                .setTitle(getString(R.string.finish))
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        final ProgressDialog loading = new ProgressDialog(getApplicationContext());
-                        loading.setTitle(getString(R.string.trip_finish));
-                        loading.setMessage(getString(R.string.please_wait));
-                        loading.show();
-                        stopService(new Intent(getApplicationContext(), FeesCalculation.class));
-                        responses("Trip is Finished");
-
-                        GenericJson myInput = new GenericJson();
-                        myInput.put("UserName", sharedPreferences.getString("UserName", ""));
-                        myInput.put("Money", txtTotalMoney.getText().toString());
-                        myInput.put("Time", date);
-                        myInput.put("customer_phone", CustomerName);
-                        myInput.put("Distance", txtTotalDistance.getText().toString());
-
-                        AsyncAppData<GenericJson> myPayments = mKinveyClient.appData("Payments", GenericJson.class);
-                        myPayments.setCache(new InMemoryLRUCache(), CachePolicy.NETWORKFIRST);
-                        myPayments.save(myInput, new KinveyClientCallback<GenericJson>() {
-                            @Override
-                            public void onSuccess(GenericJson genericJson) {
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.remove("CustomerName");
-                                editor.remove("CustomerDes");
-                                editor.remove("CustomerGeo");
-                                editor.remove("ID");
-                                editor.apply();
-                                loading.dismiss();
-
-                                Toast.makeText(getApplicationContext(), getString(R.string.data_saved), Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onFailure(Throwable throwable) {
-
-                            }
-                        });
-                    }
-                })
-                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .show();
-        startService(new Intent(getApplicationContext(), Locations.class));
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("state", "online");
-        editor.apply();
-
     }
 
     public void responses(String message) {

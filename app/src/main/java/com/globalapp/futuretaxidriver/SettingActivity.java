@@ -1,4 +1,4 @@
-package com.globalapp.aswandriver;
+package com.globalapp.futuretaxidriver;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 

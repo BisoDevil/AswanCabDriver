@@ -6,10 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context="com.globalapp.aswandriver.SplashActivity">
+    tools:context="com.globalapp.futuretaxidriver.SplashActivity">
 
     <ProgressBar
         android:id="@+id/progressBar5"
+        style="@android:style/Widget.Holo.Light.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
